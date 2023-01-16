@@ -1,0 +1,14 @@
+import React from 'react';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
+const Marketplace = () => {
+    return (
+        <section className='hero'>
+            
+            <h1>Welcome to Marketplace Page</h1>
+        </section>
+    )
+}
+
+export default Marketplace;
