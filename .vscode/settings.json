@@ -1,0 +1,6 @@
+{
+    "files.autoSaveDelay": 10000,
+    "files.autoSave": "afterDelay",
+    "files.trimTrailingWhitespace": true,
+    "markdown.updateLinksOnFileMove.enabled": "always"
+}
