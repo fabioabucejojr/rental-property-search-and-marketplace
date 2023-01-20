@@ -30,7 +30,7 @@ const authorization = async (req, res, next) => {
 router.use(cors())
 router.use(express.json()); //req body
 
-// Admin Dashboard routes
+// User Dashboard routes
 
 router.get("/", async (req, res) => {
     try {
@@ -56,22 +56,82 @@ router.get("/marketplace", (req, res) => {
   }
 });
 
-// get all renters
-router.get("/renters", authorization, async (req, res) => {
-  // handle requests for the list of tenants
+router.get("/user/profile", authorization, async (req, res) => {
   try {
-    // retrieve all renters
-    const allRenters = await pool.query("SELECT * FROM users");
-    // return the list of renters
-    res.json(allRenters.rows);
+    const {user_id} = req.params;
+    const profile = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+    res.json(profile.rows[0])
+  } catch (error) {
+      console.error(error.message);
+      res.status(500).send({ msg: "Unauthenticated" });
+  }
+});
+
+// updates user's profile
+router.put("/user/profile/:user_id", authorization, async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const {first_name,middle_name,last_name,bdate, user_email, user_password, user_type, companions, contact_num,created_at} = req.body;
+    const updateProfile = await pool.query("UPDATE users SET first_name = $1,middle_name = $2,last_name = $3,bdate = $4, user_email = $5, user_password = $6, user_type = $7, companions = $8, contact_num = $9, created_at = $10 WHERE user_id = $11 RETURNING *", [first_name, middle_name, last_name, bdate, user_email, user_password, user_type, companions, contact_num, created_at, user_id]
+    );
+    res.json(updateProfile.rows[0]);
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message)
+    res.status(500).json({ error: "An error occurred while processing the request" });
+  }
+})
+
+router.get("/user/properties/:user_id", async (req, res) => {
+  // handle request for the user's properties
+  try {
+    const {user_id} = req.params;
+    const properties = await pool.query("SELECT * FROM properties WHERE user_id = $1", [user_id]);
+    res.json(properties.rows[0]);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).json({ error: "An error occurred while processing the request" });
   }
 });
 
+router.get("/user/transactions/:user_id", async (req, res) => {
+  // handle request for the user's transaction history
+  try {
+    const {user_id} = req.params;
+    const usersTransactions = await pool.query("SELECT * FROM transactions WHERE user_id = $1", [user_id]);
+    res.json(usersTransactions.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "An error occurred while processing the request" });
+  }
+});
+
+router.put("/user/transactions/:user_id", async (req, res) => {
+  // handles updates of the user's transaction
+  try {
+    const {user_id} = req.params;
+    const transactions = await pool.query("SELECT * FROM transactions WHERE user_id = $1", [user_id]);
+    res.json(transactions.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "An error occurred while processing the request" });
+  }
+});
+
+router.get("/user/payments/:user_id",async (req, res) => {
+  // handle request for the user's payment history
+  try {
+    const {user_id} = req.params;
+    const payments = await pool.query("SELECT * FROM payments WHERE user_id = $1", [user_id]);
+    res.json(payments.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "An error occurred while processing the request" });
+  }
+});
+
+
 // get a renter
-router.get("/renters/:user_id", authorization, async (req, res) => {
+router.get("/renter/:user_id", authorization, async (req, res) => {
   // handle requests for a tenant
   try {
     const { user_id } = req.params;
@@ -82,35 +142,6 @@ router.get("/renters/:user_id", authorization, async (req, res) => {
     res.status(500).json({ error: "An error occurred while processing the request" });
   }
 });
-
-// update a renter
-router.put("/renters/:user_id", authorization, async (req, res) => {
-  try {
-    const { user_id } = req.params;
-    const {first_name,middle_name,last_name,bdate, user_email, user_password, user_type, companions, contact_num,created_at} = req.body;
-    const updateRenter = await pool.query("UPDATE users SET first_name = $1,middle_name = $2,last_name = $3,bdate = $4, user_email = $5, user_password = $6, user_type = $7, companions = $8, contact_num = $9, created_at = $10 WHERE user_id = $11 RETURNING *", [first_name, middle_name, last_name, bdate, user_email, user_password, user_type, companions, contact_num, created_at, user_id]
-    );
-    res.json(updateRenter.rows[0]);
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  }
-})
-
-// delete a renter
-router.delete("/renters/:user_id", authorization, async (req, res) => {
-  try {
-    const { user_id } = req.params;
-    const result = await pool.query("DELETE FROM users WHERE user_id = $1 RETURNING *", [user_id]);
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Renter not found" });
-    }
-    res.json("Renter deleted successfully!");
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  }
-})
 
 // get all transactions
 router.get("/transactions", authorization, async (req, res) => {
@@ -178,9 +209,8 @@ router.get("/payables", (req, res) => {
   }
 });
 
-// for the rent receivables
-router.get("/receivables", (req, res) => {
-  // handle requests for the receivables page
+router.get("/reports", (req, res) => {
+  // handle requests for the reports page
   try {
 
   } catch (err) {
@@ -250,16 +280,16 @@ router.delete("/billingstatement/:billing_id", authorization, async (req, res) =
   }
 });
 
-// router.get("/data", (req, res) => {
-//   // code to retrieve data from the dashboard and send it back to the client
-//   try {
+router.get("/data", (req, res) => {
+  // code to retrieve data from the dashboard and send it back to the client
+  try {
 
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).json({ error: "An error occurred while processing the request" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "An error occurred while processing the request" });
 
-//   }
-// });
+  }
+});
 
 const { Client } = require('pg');
 
@@ -346,16 +376,5 @@ client.end();
 
 //   }
 // });
-
-router.get("/reports", (req, res) => {
-  // handle requests for the reports page
-  try {
-
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-
-  }
-});
 
 module.exports = router;
