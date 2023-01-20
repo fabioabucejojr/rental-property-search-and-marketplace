@@ -1,3 +1,0 @@
-import Signin from "../pages/auth/Signin";
-import Signup from "../pages/auth/Signup";
-import ForgotPassword from "../pages/auth/ForgotPassword";

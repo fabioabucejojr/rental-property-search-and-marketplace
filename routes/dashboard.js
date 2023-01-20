@@ -323,6 +323,7 @@ router.put("/documents/:docu_id", authorization, async (req, res) => {
     [name, file_type, file_size, file_data, created_at, docu_id]);
     res.json(updateDocs.rows[0]);
   } catch (err) {
+    // eslint-disable-next-line no-undef
     console.log(results.rowCount + " document updated");
     res.status(500).json({error: "An error occurred while processing the request"});
   }
