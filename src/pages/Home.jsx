@@ -1,13 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Home.css";
-import Search from "../components/Search"
-
+import SearchBar from "../components/Marketplace";
 
 function Home() {
   return (
     <>
-    <Search />
+    <SearchBar />
     <div className="home">
       <div className="inner">
         <div className="result">
@@ -15,11 +14,11 @@ function Home() {
         </div>
       </div>
       <div className="btns">
-        
+
       </div>
     </div>
     </>
-     
+
   )
 }
 

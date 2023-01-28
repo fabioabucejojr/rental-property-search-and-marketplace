@@ -20,8 +20,8 @@ const UploadPhoto = ( ) => {
                 body: formData
             })
 
-            
-            
+
+
         } catch (error) {
             console.log(error.message)
         }

@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { Typography } from "@mui/material";
 import axios from "axios";
-import { createRoot } from "react-dom/client";
-// import { render } from "react-dom";
+import ReactDOM from 'react-dom';
+import {createRoot} from "react-dom";
 
 import {
   BrowserRouter as Router,
@@ -19,7 +19,7 @@ import {
 
 //components
 import Home from "./pages/Home";
-import Search from "./components/Search";
+import Search from "./components/Marketplace";
 import About from "./pages/About";
 import GetStarted from "./pages/GetStarted";
 import Contact from "./pages/Contact";
@@ -63,7 +63,7 @@ async function logErrorToMyService(error, errorInfo) {
     .catch(error => {
       console.log("Error reporting failed:", error);
     })
-}
+};
 
 
 function App() {
@@ -95,6 +95,9 @@ function App() {
   }, []);
 
 
+  ReactDOM.render(<ErrorBoundary>
+    <App />
+  </ErrorBoundary>, document.getElementById("root"));
 
 
 
@@ -108,28 +111,9 @@ function App() {
     //   root
     // );
 
-    //   Error; Boundary; Point
-    const container = document.getElementById("root");
-    const root = createRoot(container);
-    root.render(
-      <ErrorBoundary>
-        <Router>
-          <App />
-        </Router>
-      </ErrorBoundary>,
-    console.log(container)
-
-    );
-
 
     // console.log(container.nodeType);
     // console.log(container instanceof HTMLElement);
-
-
-
-
-
-
 
     // //
     // const handlePrint = () => {
@@ -137,6 +121,7 @@ function App() {
     // }
     // class App extends React.Component {
     //   render() {
+
     return (
       <Fragment>
         <Router>
@@ -168,3 +153,10 @@ function App() {
   };
 
 export default App;
+
+// useEffect(() => {
+//   isAuth();
+//   }, []);
+
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
