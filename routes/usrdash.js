@@ -79,7 +79,7 @@ router.put("/user/profile/:user_id", authorization, async (req, res) => {
     console.error(err.message)
     res.status(500).json({ error: "An error occurred while processing the request" });
   }
-})
+});
 
 router.get("/user/properties/:user_id", async (req, res) => {
   // handle request for the user's properties
@@ -87,6 +87,18 @@ router.get("/user/properties/:user_id", async (req, res) => {
     const {user_id} = req.params;
     const properties = await pool.query("SELECT * FROM properties WHERE user_id = $1", [user_id]);
     res.json(properties.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "An error occurred while processing the request" });
+  }
+});
+
+router.put("/user/properties/:user_id", async (req, res) => {
+  //updates user's search results properties
+  try {
+    const {user_id} = req.params;
+    const updateProperties = await pool.query("UPDATE * FROM properties WHERE user_id = $1", [user_id]);
+    res.json(updateProperties.rows[0]);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "An error occurred while processing the request" });

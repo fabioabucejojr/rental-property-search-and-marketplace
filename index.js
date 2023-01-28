@@ -10,6 +10,7 @@ const {generateJWT} = require("./utils/jwtGenerator.js");
 const bcrypt = require("bcrypt");
 const {auth} = require("./middleware/authorization.js");
 const multer = require("multer");
+const pool = ""
 
 //middlewares
 app.use(cors());
@@ -26,7 +27,6 @@ app.use('/img', express.static('public/uploads'))
 app.use(morgan('combined', {stream: accessLogStream}))
 
 //multer storage
-// filename here?
 const storage = multer.diskStorage( {
     destination: (req, file, cb) => {
         cb(null, './public/uploads')
@@ -48,6 +48,14 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/user", usrdashRoutes);
 
 //routes
+app.get('/auth/is-verify', async(req,res) => {
+    try {
+
+    } catch (err) {
+        console.error(err.message)
+    }
+})
+
 app.post('/register', async (req, res) => {
 
     const { first_name, user_email, user_password } = req.body
@@ -82,11 +90,8 @@ app.post('/login', async (req, res) => {
     try {
         const { user_email, user_password } = req.body
 
-        const user = await pool.query(`
-        SELECT * FROM users
-        WHERE (user_email, user_password) = $1
+        const user = await pool.query(`SELECT * FROM users WHERE (user_email, user_password) = $1
         `, [user_email, user_password])
-
         if (user.rows[0].length < 0) {
             res.status(401).send("Username or password is incorrect")
         }
@@ -105,38 +110,6 @@ app.post('/login', async (req, res) => {
         res.status(500).send({ msg: error.message });
     }
 })
-
-
-
-// app.get('/tweets', auth, async (req, res) => {
-//     try {
-//         const tweets = await pool.query(`
-//         SELECT * FROM tweets
-//         `)
-
-
-//         res.json(tweets.rows)
-
-//     } catch (error) {
-//         console.error(error.message);
-//     }
-// })
-
-// app.post('/tweets', auth, async (req, res) => {
-//     try {
-//         const { content } = req.body
-
-//         const newTweet = await pool.query(`
-//         INSERT INTO tweets (content) VALUES
-//         ($1) RETURNING *
-//         `, [content])
-
-//         res.json("Tweet sent");
-//     } catch (error) {
-
-//     }
-// })
-
 
 
 app.listen(5000, () => {

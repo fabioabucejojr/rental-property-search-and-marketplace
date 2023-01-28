@@ -1,4 +1,6 @@
+const router = require("express").Router();
 const multer = require("multer");
+const storage = multer.diskStorage({
 
 //multer middleware
 const upload = multer( { storage: storage })
@@ -15,7 +17,7 @@ router.post('/upload', upload.single('my-image'), async (req, res) => {
     res.json( {msg: "Image uploaded"} )
 })
 
-app.get('/photos', async (req, res) => {
+router.get('/photos', async (req, res) => {
     try {
 
         const response = await pool.query(`
