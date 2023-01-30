@@ -56,6 +56,7 @@ router.get("/marketplace", (req, res) => {
   }
 });
 
+// read user's profile
 router.get("/user/profile", authorization, async (req, res) => {
   try {
     const {user_id} = req.params;
@@ -81,9 +82,74 @@ router.put("/user/profile/:user_id", authorization, async (req, res) => {
   }
 });
 
-router.get("/user/properties/:user_id", async (req, res) => {
-  // handle request for the user's properties
+router.post("/user/properties/user_id", authorization, async (req, res) => {
+  // handles adding a user's property listing
   try {
+    const { property_type, price, size, amenities, availability, availabilityd8, date_listed, flooring, images, age, city, state, zip_code, bedrooms, bathrooms, owner_id } = req.body;
+
+    const propertyData = {
+      property_type,
+      price,
+      size,
+      amenities,
+      availability,
+      availabilityd8,
+      date_listed,
+      flooring,
+      images,
+      age,
+      city,
+      state,
+      zip_code,
+      bedrooms,
+      bathrooms,
+      owner_id
+    };
+
+    const text = `
+    INSERT INTO properties (property_type, price, size, amenities, availability, availabilityd8, date_listed, flooring, images, age, city, state, zip_code, bedrooms, bathrooms, user_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+    RETURNING *;
+
+    UPDATE users
+    SET properties_listed = properties_listed + 1
+    WHERE id = $16;
+    `;
+
+    const values = [
+      propertyData.property_type,
+      propertyData.price,
+      propertyData.size,
+      propertyData.amenities,
+      propertyData.availability,
+      propertyData.availabilityd8,
+      propertyData.date_listed,
+      propertyData.flooring,
+      propertyData.images,
+      propertyData.age,
+      propertyData.city,
+      propertyData.state,
+      propertyData.zip_code,
+      propertyData.bedrooms,
+      propertyData.bathrooms,
+      propertyData.user_id
+    ];
+
+    pool.query(text, values)
+      .then((res) => {
+        const property = res.rows[0];
+        return res.status(201).json({
+          status: 'success',
+          data: property
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'Error inserting property data into the database'
+        });
+      });
+
     const {user_id} = req.params;
     const properties = await pool.query("SELECT * FROM properties WHERE user_id = $1", [user_id]);
     res.json(properties.rows[0]);
@@ -140,7 +206,6 @@ router.get("/user/payments/:user_id",async (req, res) => {
     res.status(500).json({ error: "An error occurred while processing the request" });
   }
 });
-
 
 // get a renter
 router.get("/renter/:user_id", authorization, async (req, res) => {
