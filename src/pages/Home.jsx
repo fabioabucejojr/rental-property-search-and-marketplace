@@ -2,11 +2,20 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Home.css";
 import { Link } from "react-router-dom";
+// import { Button } from "@material-ui/core";
 import SearchBar from "../components/PropertySearch";
 import Map from "../components/Map";
 import PropertyList from "../components/AddPropertyListing";
 import Footer from "../components/Footer";
 import SearchIcon from '@mui/icons-material/Search';
+
+function BgVideo() {
+  return (
+    <div className="bg-video">
+      <video className="bg-video__content" autoPlay muted loop />
+    </div>
+  )
+}
 
 function Home() {
   const [location, setLocation] = React.useState(null);
