@@ -1,62 +1,81 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Home.css";
-import { Link } from "react-router-dom";
-// import { Button } from "@material-ui/core";
-import SearchBar from "../components/PropertySearch";
-import Map from "../components/Map";
-import PropertyList from "../components/AddPropertyListing";
+// import { Link } from "react-router-dom";
+// import { Button } from "react-bootstrap";
+import searchFilters from "../components/PropertySearch";
+// import SearchBar from "../components/SearchBar";
+// import Map from "../components/Map";
+// import PropertyList from "../dashboard/AddPropertyListing";
 import Footer from "../components/Footer";
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 
-function BgVideo() {
+const Home = () => {
   return (
-    <div className="bg-video">
-      <video className="bg-video__content" autoPlay muted loop />
+    <div>
+        <div className="nav--logo">
+          <a href="/"><img src="../images/logo.png" alt="hrental app"/></a>
+        </div>
+        <div className="search-filters">
+          <searchFilters />
+        </div>
+        <div className="search-bar">
+          <input className="form-control me-2" type={"search"} placeholder={"Rental Property Search"} aria-label="Search" />
+
+            <label className="container">City
+              <input type="checkbox" checked="checked" />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">State
+              <input type="checkbox" checked="checked" />
+              <span className="checkmark"></span>
+            </label>
+            <label className="container">Zip Code
+              <input type="checkbox" checked="checked" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Rental Price
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Bedrooms
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Bathrooms
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Lot Size
+              <input type="checkbox" checked="checked" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Lease Terms
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Flooring
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+            </label>
+
+            <label className="container">Amenities
+              <input type="checkbox" />
+              <span className="checkmark"></span>
+            </label>
+
+          <button className="btn btn-outline-success" type="submit">Property Search</button>
+          <button className="btn btn-outline-success" type="submit" value="I'm Feeling Lucky">I'm Feeling Lucky</button>
+      </div>
+      <Footer />
     </div>
   )
 }
 
-function Home() {
-  const [location, setLocation] = React.useState(null);
-  const [properties, setProperties] = React.useState([]);
-
-  const handleSearch = (location) => {
-    setLocation(location);
-    // Fetch properties near the location
-    // ...
-    // Set the properties in the state
-    setProperties(properties);
-  };
-
-  return (
-    <>
-    <div className="home">
-      <h1>Still On A Budget?</h1><br/>
-      <h2>Search Your Next Home Away From Home...</h2>
-      <SearchBar onSearch={handleSearch} />
-        <div className="home_header">
-          <div className="home_headerLeft">
-            <Link to="/about">About</Link>
-            <Link to="/about">About</Link>
-          </div>
-          <div className="home_headerRight">
-            <Link to="/about">About</Link>
-            <Link to="/about">About</Link>
-            <Link to="/about">About</Link>
-
-
-          </div>
-        </div>
-        <div className="home_body">
-
-        </div>
-      </div>
-
-    </>
-  );
-};
-
-
-
-export default Home;
+export default Home
