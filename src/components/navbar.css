@@ -20,6 +20,14 @@ a {
     justify-content: space-evenly;
     align-items: center;
 }
+
+.nav--logo {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    max-width: 100px;
+}
+
 .Logo {
     font-size: 30px;
     height: 50px;
@@ -27,11 +35,13 @@ a {
     margin-bottom: auto;
     /* background-image: url(.../src/images/logo.png); */
 }
+
 .nav-links {
     display: flex;
     justify-content: flex-end;
     width: 75%;
 }
+
 .nav-links li {
     color: black;
     font-size: 20px;
@@ -47,6 +57,16 @@ a {
     display: flex;
 } */
 
+body {
+    margin: 0;
+}
+
+nav {
+    height: 70px;
+    display: flex;
+    padding: 20px 36px;
+    box-shadow: 0px 2.98256px 7.4564px rgba(0,0,0,0.1);
+}
 .hero {
     text-align: center;
     margin-top: 10%;
@@ -64,7 +84,7 @@ button {
     display: none;
 
 }
-@media (max-width:768px) {
+/* @media (max-width:768px) {
     .nav-links {
         display: none;
     }
@@ -94,4 +114,4 @@ button {
     .hero h1 {
         font-size: 50px;
     }
-}
+} */
