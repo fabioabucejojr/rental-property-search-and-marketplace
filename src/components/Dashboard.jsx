@@ -6,7 +6,7 @@ import UploadPhoto from "./Upload";
 import { toast } from "react-toastify";
 
 const Dashboard = ({ setAuth }) => {
-    
+
     const [name, setName] = useState("");
 
     async function getName() {
@@ -43,12 +43,13 @@ const Dashboard = ({ setAuth }) => {
             {/* <button className="btn btn-primary" onClick={e => SubmitEvent(e)}>Calculations</button> */}
             <button className="btn btn-primary" onClick={e => logout(e)}>Logout</button>
             {/* <Link to="/billingcalculation">Input Electricity Billing Statements</Link> */}
-            <Link to="/">Main Dashboard</Link>
-            <Link to="/renters">Renters</Link>
-            <Link to="/">Marketplace</Link>
-            <Link to="/">Transactions</Link>
-            <Link to="/billingstatement">Billing</Link>
-            <Link to="/register">Create New Account</Link>
+            <Link to="/addpropertylisting">Add Property Listing</Link>
+            <Link to="/dashboard">Main Dashboard</Link>
+            <Link to="/renters">Users</Link>
+            <Link to="/marketplace">Marketplace</Link>
+            <Link to="/transactions">Transactions</Link>
+            {/* <Link to="/billingstatement">Billing</Link> */}
+
         </Fragment>
     );
 };

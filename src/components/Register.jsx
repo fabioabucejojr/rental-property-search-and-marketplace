@@ -18,8 +18,8 @@ function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
-        <Link color="inherit" href="https://kms-hrentals.com/">
-          KMS-House Rental Application
+        <Link color="inherit" href="https://hrentalapp.com/">
+          KMS-House Rental Web App
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -58,7 +58,7 @@ const SignUp = ({ setAuth }) => {
 
         try {
             const body = { first_name, user_email, user_password }
-            console.log(body)
+            // console.log(body)
             const response = await fetch("http://localhost:5000/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -91,11 +91,11 @@ const SignUp = ({ setAuth }) => {
     var year = dateObj.getUTCFullYear();
     const newdate = year + "-" + month + "-" + day;
 
-    <select name="user_type" id="user_type" >
-        <option value="admin">admin</option>
-        <option value="staff">staff</option>
-        <option value="user">user</option>
-    </select>
+    // <select name="user_type" id="user_type" >
+    //     <option value="admin">admin</option>
+    //     <option value="staff">staff</option>
+    //     <option value="user">user</option>
+    // </select>
 
     return (
         <ThemeProvider theme={theme}>
@@ -180,7 +180,7 @@ const SignUp = ({ setAuth }) => {
                                     autoComplete="new-password"
                                 />
                             </Grid>
-                            
+
                             <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox value="allowExtraEmails" color="primary" />}

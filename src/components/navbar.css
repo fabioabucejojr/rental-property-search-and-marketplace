@@ -51,6 +51,11 @@ a {
     text-transform: capitalize;
     text-decoration: none;
 }
+
+.px-4 {
+    padding: 0 10px;
+}
+
 /* .container {
     max-width: 90%;
     margin: auto;
@@ -59,6 +64,7 @@ a {
 
 body {
     margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 nav {
@@ -67,14 +73,14 @@ nav {
     padding: 20px 36px;
     box-shadow: 0px 2.98256px 7.4564px rgba(0,0,0,0.1);
 }
-.hero {
-    text-align: center;
-    margin-top: 10%;
+
+.nav--logo {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    max-width: 100px;
 }
-.hero h1 {
-    text-align: center;
-    font-size: 80px;
-}
+
 button {
     border: none;
     background: none;

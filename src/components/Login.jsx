@@ -21,7 +21,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://kms-hrentals.com/">
+      <Link color="inherit" href="https://hrentalapp.com/">
         KMS-House Rental Application
       </Link>{' '}
       {new Date().getFullYear()}
@@ -57,7 +57,7 @@ const Login = ({ setAuth }) => {
 
             if (parseRes.token) {
                 localStorage.setItem("token", parseRes.token);
-            
+
                 setAuth(true);
                 toast.success("Login Successfully!", {
                     position: toast.POSITION.TOP_CENTER
@@ -69,30 +69,14 @@ const Login = ({ setAuth }) => {
             }
         } catch (err) {
             console.error(err.message)
-            
+
         };
     };
 
-
   return (
-    // <div className="g-signin2" data-onsuccess="onSignIn"></div>
-    //   function onSignIn(googleUser) {
-    //       var profile = googleUser.getBasicProfile();
-    //         console.log('ID: ' + profile.getId(token)); // Do not send to your backend! Use an ID token instead.
-    //         console.log('Name: ' + profile.getName());
-    //         console.log('Image URL: ' + profile.getImageUrl());
-    //         console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    //     }
-    
-    //     function signOut() {
-    //       var auth2 = gapi.auth2.getAuthInstance();
-    //         auth2.signOut().then(function () {
-    //     console.log('User signed out.');
-    //     });
-    //   }
-    
+
     <ThemeProvider theme={theme}>
-      
+
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -126,7 +110,7 @@ const Login = ({ setAuth }) => {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={onSubmitForm} sx={{ mt: 1 }}>
-            
+
               <TextField
                 margin="normal"
                 required
