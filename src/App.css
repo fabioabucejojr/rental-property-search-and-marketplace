@@ -33,15 +33,36 @@
 /* Default styles */
 html{
   font-size: 90%;
-  
+
+}
+
+p{
+  font-size: 1.5rem;
+  line-height: 1.5;
+  color: #1f1f1f;
+  justify-content: justify;
 }
 
 body {
   background: #ffffff;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.gray {
+  color: #918e9b;
+}
+
+section {
+  padding: 5rem 0rem;
+}
+
+
+
 .App {
-  text-align: center;
+  text-align: justify;
 }
 
 .App-logo {
