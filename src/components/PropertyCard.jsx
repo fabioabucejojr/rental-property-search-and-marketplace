@@ -17,7 +17,7 @@ export default function Card(props) {
             <span className="gray">{props.size}</span>
         </div>
         <p>{props.property_name}</p>
-        <p><span className="bold">Php ${props.price}</span> / month</p>
+        <p><span className="bold">Php{props.price}</span> / month</p>
 
     </div>
   )
