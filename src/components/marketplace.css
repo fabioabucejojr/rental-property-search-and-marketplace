@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-  }
+}
 
   .property-card {
     width: 30%;
@@ -17,3 +17,10 @@
     height: 200px;
     object-fit: cover;
   }
+
+.featured--property--video {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+}
