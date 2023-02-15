@@ -12,16 +12,21 @@ const Navbar = () => {
 
     return (
         <header>
-            <nav className="navbar navbar-light bg-light navbar-expand-lg">
-            <Link to="/" className="navbar-brand">
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    Website<img src="../images/logo.png" alt="" />{/* <span className="navbar-toggler-icon"></span> */}
-                </button>
-            </Link>
+            <nav className="navbar navbar-light navbar-expand-lg">
+                <Link to="/" className="navbar-brand">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <img src="../images/logo.png" alt="" />{/* <span className="navbar-toggler-icon"></span> */}
+                    </button>
+                </Link>
             <div className="collapse navbar-collapse" id="navbarCollapse">
                 <ul className={mobile? "nav-links-mobile" : "nav-links"} onClick={() =>setMobile(false)}>
-                    <a href="/"><img src="../images/logo.png" className="nav--logo" alt="logo" /></a>
+
                 {/* <ul className="navbar-nav ml-auto"> */}
+                    <li className="nav-item">
+                        <Link to="/" className="nav-link">
+                        <img src="../images/logo.png" className="nav--logo" alt="logo" />HRental App
+                        </Link>
+                    </li>
                     <li className="nav-item">
                         <Link to="/register" className="nav-link">
                             Post Property Listing FREE!
