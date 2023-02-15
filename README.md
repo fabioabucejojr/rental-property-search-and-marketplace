@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-Updated README.md
+README.md
 =======
 # Getting Started with Create React App
 
