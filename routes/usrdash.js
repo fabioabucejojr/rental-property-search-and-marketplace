@@ -56,8 +56,11 @@ router.get("/marketplace", (req, res) => {
   }
 });
 
-// read user's profile
-router.get("/user/profile", authorization, async (req, res) => {
+// SEARCH FILTERS
+
+
+// READ user's profile
+router.get("/users/:user_id", authorization, async (req, res) => {
   try {
     const {user_id} = req.params;
     const profile = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
@@ -68,110 +71,99 @@ router.get("/user/profile", authorization, async (req, res) => {
   }
 });
 
-// updates user's profile
-router.put("/user/profile/:user_id", authorization, async (req, res) => {
+// UPDATE a user profile
+router.put("/users/:user_id", authorization, async (req, res) => {
+    const {first_name, last_name, user_email, bdate, user_password, user_type} = req.params;
+    const query = await pool.query(`UPDATE users SET first_name = $1, last_name = $2, bdate = $3, user_email = $4, user_password = $5, user_type = $6 WHERE user_id = $7`);
   try {
-    const { user_id } = req.params;
-    const {first_name,middle_name,last_name,bdate, user_email, user_password, user_type, companions, contact_num,created_at} = req.body;
-    const updateProfile = await pool.query("UPDATE users SET first_name = $1,middle_name = $2,last_name = $3,bdate = $4, user_email = $5, user_password = $6, user_type = $7, companions = $8, contact_num = $9, created_at = $10 WHERE user_id = $11 RETURNING *", [first_name, middle_name, last_name, bdate, user_email, user_password, user_type, companions, contact_num, created_at, user_id]
-    );
-    res.json(updateProfile.rows[0]);
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).json({ error: "An error occurred while processing the request" });
+    const result = await pool.query(query, [first_name, last_name, bdate, user_email, user_password, user_type ]);
+    res.status(200).send(`User modified with ID: ${result.insertUserId}`);
+  } catch (error) {
+      res.status(500).send(`Error modifying user: ${error.message}`);
   }
 });
 
-router.post("/user/properties/user_id", authorization, async (req, res) => {
-  // handles adding a user's property listing
+// CREATE - Add a new property listing for a user
+router.post('/user/property', async (req, res) => {
   try {
-    const { property_type, price, size, amenities, availability, availabilityd8, date_listed, flooring, images, age, city, state, zip_code, bedrooms, bathrooms, owner_id } = req.body;
-
-    const propertyData = {
-      property_type,
-      price,
-      size,
-      amenities,
-      availability,
-      availabilityd8,
-      date_listed,
-      flooring,
-      images,
-      age,
-      city,
-      state,
-      zip_code,
-      bedrooms,
-      bathrooms,
-      owner_id
-    };
-
-    const text = `
-    INSERT INTO properties (property_type, price, size, amenities, availability, availabilityd8, date_listed, flooring, images, age, city, state, zip_code, bedrooms, bathrooms, user_id)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-    RETURNING *;
-
-    UPDATE users
-    SET properties_listed = properties_listed + 1
-    WHERE id = $16;
-    `;
-
-    const values = [
-      propertyData.property_type,
-      propertyData.price,
-      propertyData.size,
-      propertyData.amenities,
-      propertyData.availability,
-      propertyData.availabilityd8,
-      propertyData.date_listed,
-      propertyData.flooring,
-      propertyData.images,
-      propertyData.age,
-      propertyData.city,
-      propertyData.state,
-      propertyData.zip_code,
-      propertyData.bedrooms,
-      propertyData.bathrooms,
-      propertyData.user_id
-    ];
-
-    pool.query(text, values)
-      .then((res) => {
-        const property = res.rows[0];
-        return res.status(201).json({
-          status: 'success',
-          data: property
-        });
-      })
-      .catch((err) => {
-        return res.status(500).json({
-          status: 'error',
-          message: 'Error inserting property data into the database'
-        });
-      });
-
-    const {user_id} = req.params;
-    const properties = await pool.query("SELECT * FROM properties WHERE user_id = $1", [user_id]);
-    res.json(properties.rows[0]);
+    const { user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms } = req.body;
+    const propertyData = [ user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms ];
+    const propertySQL = 'INSERT INTO properties ( user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+    const result = await pool.query(propertySQL, propertyData);
+    res.status(201).json({
+      status: 'success',
+      message: 'Property listing added successfully!',
+      data: result.rows[0],
+    });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
+    res.status(400).json({
+      status: 'error',
+      message: 'Failed to add property listing',
+      error: err,
+    });
   }
 });
 
-router.put("/user/properties/:user_id", async (req, res) => {
-  //updates user's search results properties
+// READ - Get a user's property listing
+router.get('/property/:user_id', async (req, res) => {
   try {
-    const {user_id} = req.params;
-    const updateProperties = await pool.query("UPDATE * FROM properties WHERE user_id = $1", [user_id]);
-    res.json(updateProperties.rows[0]);
+    const propertyId = [req.params.id];
+    const propertySQL = 'SELECT * FROM properties WHERE id = $1';
+    const result = await pool.query(propertySQL, propertyId);
+    res.status(200).json({
+      status: 'success',
+      message: 'Property listing retrieved successfully!',
+      data: result.rows[0],
+    });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
+    res.status(400).json({
+      status: 'error',
+      message: 'Failed to retrieve property listing',
+      error: err,
+    });
   }
 });
 
-router.get("/user/transactions/:user_id", async (req, res) => {
+// UPDATE - Edit a user's property listing
+router.put('/property/:prop_id', async (req, res) => {
+  try {
+    const prop_id = [req.params.prop_id];
+    const { property_name, city, state, zip_code, price, bedrooms, bathrooms } = req.body;
+    const propertyData = [property_name, city, state, zip_code, price, bedrooms, bathrooms, prop_id];
+    const propertySQL = 'UPDATE properties SET property_name = $1, city = $2, state = $3, zip_code = $4, price = $5, bedrooms = $6, bathrooms = $7 WHERE prop_id = $8';
+    const result = await pool.query(propertySQL, propertyData);
+    res.status(200).json({
+      status: 'success',
+      message: 'Property listing updated successfully!',
+      data: result.rows[0],
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'error',
+      message: 'Failed to update property listing',
+      error: err,
+    });
+  }
+});
+
+// DELETE - Delete a user's property listing
+router.delete("/property/:prop_id", (req, res) => {
+  const prop_id = req.params.prop_id;
+  pool.query(`DELETE FROM properties WHERE prop_id = '${prop_id}'`, (error, result) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).send(`Property with ID: ${prop_id} deleted.`);
+  });
+});
+
+// const PORT = process.env.PORT || 5000;
+// router.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}.`);
+// });
+
+// READ - Get a user's transaction history
+router.get("/transactions/", async (req, res) => {
   // handle request for the user's transaction history
   try {
     const {user_id} = req.params;
@@ -183,7 +175,8 @@ router.get("/user/transactions/:user_id", async (req, res) => {
   }
 });
 
-router.put("/user/transactions/:user_id", async (req, res) => {
+// UPDATE - Edit a user's transaction history
+router.put("/transactions/:transaction_id", async (req, res) => {
   // handles updates of the user's transaction
   try {
     const {user_id} = req.params;
@@ -195,32 +188,7 @@ router.put("/user/transactions/:user_id", async (req, res) => {
   }
 });
 
-router.get("/user/payments/:user_id",async (req, res) => {
-  // handle request for the user's payment history
-  try {
-    const {user_id} = req.params;
-    const payments = await pool.query("SELECT * FROM payments WHERE user_id = $1", [user_id]);
-    res.json(payments.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  }
-});
-
-// get a renter
-router.get("/renter/:user_id", authorization, async (req, res) => {
-  // handle requests for a tenant
-  try {
-    const { user_id } = req.params;
-    const renters = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id])
-    res.json(renters.rows[0]);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  }
-});
-
-// get all transactions
+// GET ALL transactions
 router.get("/transactions", authorization, async (req, res) => {
   // handle requests for the list of transactions
   try {
@@ -232,7 +200,7 @@ router.get("/transactions", authorization, async (req, res) => {
   }
 });
 
-// get a transaction
+// GET a transaction
 router.get("/transactions/:transactions_id", authorization, async (req, res) => {
   // handle requests for the transactions page
   try {
@@ -245,7 +213,7 @@ router.get("/transactions/:transactions_id", authorization, async (req, res) => 
   }
 });
 
-// update a transaction
+// UPDATE a transaction
 router.put("/transactions/:transactions_id", authorization, async (req, res) => {
   try {
     const { transactions_id } = req.params;
@@ -258,8 +226,7 @@ router.put("/transactions/:transactions_id", authorization, async (req, res) => 
   }
 });
 
-
-// delete a transaction
+// DELETE a transaction
 router.delete("/transactions/:transaction_id", authorization, async (req, res) => {
   const { transactions_id } = req.params;
   try {
@@ -274,95 +241,12 @@ router.delete("/transactions/:transaction_id", authorization, async (req, res) =
   }
 });
 
-// for the maintenance costs and utilities
-router.get("/payables", (req, res) => {
-  // handle requests for the payables page
-  try {
-
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-
-  }
-});
-
 router.get("/reports", (req, res) => {
   // handle requests for the reports page
   try {
 
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-
-  }
-});
-
-//get all billingstatements
-router.get('/billingstatements', authorization, async (req, res) => {
-  try {
-    // retrieve all billing statements
-    const billingStatements = await pool.query('SELECT * FROM billing');
-    // return the billing statements
-    res.json(billingStatements.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'An error occurred while retrieving the billing statements' });
-  }
-});
-
-//get a billingstatement
-router.get("/billingstatement/:billing_id", authorization, async (req, res) => {
-  try {
-    const {billing_id} = req.params;
-    const billingstatement = await pool.query("SELECT * FROM billing WHERE billing_id = $1", [billing_id]);
-    res.json(billingstatement.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  };
-});
-
-// update the billing statement
-router.put("/billingstatement/:billing_id", authorization, async (req, res) => {
-  try {
-    const { billing_id } = req.params;
-    const {total_amount_due,
-      total_consumption_perkwh,
-      current_reading,
-      previous_reading,
-      add_others} = req.body;
-    const updateStatement = await pool.query(
-      "UPDATE billing SET total_amount_due = $1, total_consumption_perkwh = $2, current_reading = $3, previous_reading = $4, add_others = $5 WHERE billing_id = $6 RETURNING *",
-      [total_amount_due, total_consumption_perkwh, current_reading, previous_reading, add_others, billing_id]
-    );
-    res.json(updateStatement.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  }
-});
-
-// delete a billing statement
-router.delete("/billingstatement/:billing_id", authorization, async (req, res) => {
-  try {
-    const { billing_id } = req.params;
-    const result = await pool.query("DELETE FROM billing WHERE billing_id = $1 RETURNING *", [billing_id]);
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Billing statement not found" });
-    }
-    res.json({ message: "Billing statement deleted successfully" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "An error occurred while processing the request" });
-  }
-});
-
-router.get("/data", (req, res) => {
-  // code to retrieve data from the dashboard and send it back to the client
-  try {
-
-  } catch (err) {
-    console.error(err.message);
     res.status(500).json({ error: "An error occurred while processing the request" });
 
   }
