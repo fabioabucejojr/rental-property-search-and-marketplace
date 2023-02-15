@@ -7,6 +7,7 @@ const validInfo = require("../middleware/validinfo");
 const authorization = require("../middleware/authorization");
 //const app = express();
 
+
 router.post("/register", validInfo, async (req, res) => {
     try {
 
@@ -19,7 +20,9 @@ router.post("/register", validInfo, async (req, res) => {
         const user = await pool.query(`
             SELECT * FROM users
             WHERE user_email = $1`
-            , [user_email])
+            , [user_email]);
+
+            // res.json(user.rows);
 
         if (user.rows.length !== 0) {
             res.status(401).json("Username has been taken")
@@ -86,6 +89,12 @@ router.post("/login", async (req, res) => {
         console.error(err.message);
     }
 });
+
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 router.get("/is-verify", authorization, async (req, res) => {
     try {
