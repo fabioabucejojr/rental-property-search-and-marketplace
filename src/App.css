@@ -45,6 +45,7 @@ p{
 
 body {
   background: #ffffff;
+  margin: 0;
 }
 
 .bold {
@@ -59,6 +60,10 @@ section {
   padding: 5rem 0rem;
 }
 
+.hero--contact--container {
+  background: #fdfd96;
+  padding: 5rem 0rem;
+}
 
 
 .App {
