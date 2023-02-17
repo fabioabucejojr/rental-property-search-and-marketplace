@@ -2,7 +2,8 @@ import React, { Fragment, useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import { getData } from "./api/axios";
-import searchBar from "./components/SearchBar";
+import SearchBar from "./components/SearchBar";
+import { Switch } from "react-router-dom";
 // import { toast } from "react-toastify";
 // import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import ReactDOM from 'react-dom';
 import {createRoot} from "react-dom";
+import Footer from "./components/Footer";
 
 
 import {
@@ -22,49 +24,12 @@ import {
 //components
 import Home from "./pages/Home";
 import About from "./pages/About";
-// import GetStarted from "./pages/GetStarted";
 import Contact from "./pages/Contact";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import MarketplacePage from "./components/Marketplace";
 import Dashboard from "./components/Dashboard";
-import UserDashboard from "../src/dashboard/UsrDashboard";
-
-// class ErrorBoundary extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = { hasError: false };
-//   }
-
-//   static getDerivedStateFromError(error) {
-//     // Update state so the next render will show the fallback UI.
-//     return { hasError: true };
-//   }
-
-//   componentDidCatch(error, errorInfo) {
-//     // You can also log the error to an error reporting service
-//     logErrorToMyService(error, errorInfo);
-//   }
-
-//   render() {
-//     if (this.state.hasError) {
-//       // You can render any custom fallback UI
-//       return <h1>Something went wrong.</h1>
-//     }
-
-//     return this.props.children;
-//   }
-// };
-
-// async function logErrorToMyService(error, errorInfo) {
-//   axios.post("/errors", { error, errorInfo })
-//     .then(response => {console.log("Error reported to service:", response.data);
-//     })
-//     .catch (err => {
-//       console.error(err.message);
-//     }, []);
-// }
-
+import UserDashboard from "./components/UsrDashboard";
 
 function App() {
 
@@ -103,7 +68,7 @@ function App() {
 
 
       parseRes === false ? setIsAuthenticated(true) : setIsAuthenticated(false);
-      console.log(parseRes);
+      // console.log(parseRes);
     } catch (err) {
       console.log(err.message);
     };
@@ -113,9 +78,6 @@ function App() {
     isAuth();
   }, []);
 
-  // ReactDOM.render(<ErrorBoundary>
-  //   <App />
-  // </ErrorBoundary>, document.getElementById("root"));
 
     // console.log(container.nodeType);
     // console.log(container instanceof HTMLElement);
@@ -126,16 +88,32 @@ function App() {
     // }
     // class App extends React.Component {
     //   render() {
-
+  
+// function defineUser() {
+//   const user = defineUser(); // get user from authentication service
+//   return (
+//     <div className="App">
+//       <Switch>
+//         <Route path="/user" component={UserDashboard} />
+//         <Route path="/admin" component={AdminDashboard} />
+//         <Navigate to={user.user_type === 'user' ? '/user' : '/admin'} />
+//       </Switch>
+//     </div>
+//   );
+// }
 
     return (
       <Fragment>
         <Router>
           <Navbar />
-          <searchBar data={data} setSearchResults={setSearchResults} />
-
+          {/* <searchBar data={data} setSearchResults={setSearchResults} />
+          <Switch>        
+            
+            <Navigate to={users.user_type === 'user' ? '/user' : '/admin'} />        
+          </Switch> */}
             <Routes>
-
+              {/* <Route path="/user" component={UserDashboard} />
+              <Route path="/admin" component={Dashboard} /> */}
               <Route exact path="/" element={<Home />} />
               <Route exact path="/register" element={<Home />} />
               <Route exact path="/marketplace" element={<MarketplacePage />} />
@@ -145,9 +123,9 @@ function App() {
               <Route exact path="/login" element={!isAuthenticated ? (<Login setAuth={setAuth} />) : (<Navigate to="/dashboard" />)} />
               <Route exact path="/register" element={!isAuthenticated ? (<Register setAuth={setAuth} />) : (<Navigate to="/dashboard" />)} />
               <Route exact path="/dashboard" element={!isAuthenticated ? (<Dashboard setAuth={setAuth} />) : (<Navigate to="/login" />)} />
-            </Routes>
-
+            </Routes>          
         </Router>
+        <Footer />
       </Fragment>
     );
   };
