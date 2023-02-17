@@ -4,7 +4,13 @@
     justify-content: space-between;
 }
 
-  .property-card {
+#hero > section{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.property-card {
     width: 30%;
     border: 1px solid #ddd;
     margin-bottom: 20px;
@@ -18,9 +24,10 @@
     object-fit: cover;
   }
 
-.featured--property--video {
+/* .featured--property--video {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
   overflow-x: auto;
-}
+  
+} */

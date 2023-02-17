@@ -3,7 +3,8 @@ import axios from "axios";
 import VideoBg from "../assets/videoBg.mp4";
 import Card from "./PropertyCard";
 import Data from "../components/Data";
-import "./Marketplace.css";
+import "./marketplace.css";
+import Navbar from "./Navbar";
 
 const MarketplacePage = () => {
   const [properties, setProperties] = useState([]);
@@ -49,11 +50,19 @@ const MarketplacePage = () => {
 
   return (
     <div>
-      <section className="featured--hero">
-        <div className="featured--property--video">
-          <videoBg  />
-        </div>
+      <Navbar />
+      {/* ============= Hero Section ============= --> */}
+      <section id="hero" className="d-flex align-items-center">
+        <video autoPlay loop muted>
+          <source src={VideoBg} type="video/mp4" />
+        </video>
       </section>
+        {/* <div className="container position-relative" data-aos="fade-up" data-aos-delay="500">
+          <h1>Find Your Next Home</h1>
+          <h2>Search from over 1000+ properties</h2>
+          <a href="#about" className="btn-get-started scrollto">Get Started</a>
+        </div> */}
+      {/* </section><!-- End Hero --> */}
       <section className="marketplace--search--filters">
         <div className="filter-sort">
           <select onChange={handleSort}>
