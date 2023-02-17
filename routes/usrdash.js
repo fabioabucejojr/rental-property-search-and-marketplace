@@ -13,7 +13,7 @@ const authorization = async (req, res, next) => {
     // Get the ID of the user whose dashboard is being accessed
     const dashboardUserId = req.params.user_id;
 
-    // If the user"s ID does not match the dashboard user's ID, return a 403 error
+    // If the user"s ID does not match the dashboard user"s ID, return a 403 error
     if (user_id !== dashboardUserId) {
       return res.status(403).json({ msg: "Unauthorized" });
     }
@@ -59,7 +59,7 @@ router.get("/marketplace", (req, res) => {
 // SEARCH FILTERS
 
 
-// READ user's profile
+// READ user"s profile
 router.get("/users/:user_id", authorization, async (req, res) => {
   try {
     const {user_id} = req.params;
@@ -84,72 +84,72 @@ router.put("/users/:user_id", authorization, async (req, res) => {
 });
 
 // CREATE - Add a new property listing for a user
-router.post('/user/property', async (req, res) => {
+router.post("/property", async (req, res) => {
   try {
     const { user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms } = req.body;
     const propertyData = [ user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms ];
-    const propertySQL = 'INSERT INTO properties ( user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+    const propertySQL = "INSERT INTO properties ( user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
     const result = await pool.query(propertySQL, propertyData);
     res.status(201).json({
-      status: 'success',
-      message: 'Property listing added successfully!',
+      status: "success",
+      message: "Property listing added successfully!",
       data: result.rows[0],
     });
   } catch (err) {
     res.status(400).json({
-      status: 'error',
-      message: 'Failed to add property listing',
+      status: "error",
+      message: "Failed to add property listing",
       error: err,
     });
   }
 });
 
-// READ - Get a user's property listing
-router.get('/property/:user_id', async (req, res) => {
+// READ - Get a user"s property listing
+router.get("/property/:user_id", async (req, res) => {
   try {
     const propertyId = [req.params.id];
-    const propertySQL = 'SELECT * FROM properties WHERE id = $1';
+    const propertySQL = "SELECT * FROM properties WHERE id = $1";
     const result = await pool.query(propertySQL, propertyId);
     res.status(200).json({
-      status: 'success',
-      message: 'Property listing retrieved successfully!',
+      status: "success",
+      message: "Property listing retrieved successfully!",
       data: result.rows[0],
     });
   } catch (err) {
     res.status(400).json({
-      status: 'error',
-      message: 'Failed to retrieve property listing',
+      status: "error",
+      message: "Failed to retrieve property listing",
       error: err,
     });
   }
 });
 
-// UPDATE - Edit a user's property listing
-router.put('/property/:prop_id', async (req, res) => {
+// UPDATE - Edit a user"s property listing
+router.put("/property/:prop_id", async (req, res) => {
   try {
     const prop_id = [req.params.prop_id];
     const { property_name, city, state, zip_code, price, bedrooms, bathrooms } = req.body;
     const propertyData = [property_name, city, state, zip_code, price, bedrooms, bathrooms, prop_id];
-    const propertySQL = 'UPDATE properties SET property_name = $1, city = $2, state = $3, zip_code = $4, price = $5, bedrooms = $6, bathrooms = $7 WHERE prop_id = $8';
+    const propertySQL = "UPDATE properties SET property_name = $1, city = $2, state = $3, zip_code = $4, price = $5, bedrooms = $6, bathrooms = $7 WHERE prop_id = $8";
     const result = await pool.query(propertySQL, propertyData);
     res.status(200).json({
-      status: 'success',
-      message: 'Property listing updated successfully!',
+      status: "success",
+      message: "Property listing updated successfully!",
       data: result.rows[0],
     });
   } catch (err) {
     res.status(400).json({
-      status: 'error',
-      message: 'Failed to update property listing',
+      status: "error",
+      message: "Failed to update property listing",
       error: err,
     });
   }
 });
 
-// DELETE - Delete a user's property listing
+// DELETE - Delete a user"s property listing
 router.delete("/property/:prop_id", (req, res) => {
   const prop_id = req.params.prop_id;
-  pool.query(`DELETE FROM properties WHERE prop_id = '${prop_id}'`, (error, result) => {
+  pool.query(`DELETE FROM properties WHERE prop_id = "${prop_id}"`, (error, result) => {
     if (error) {
       throw error;
     }
@@ -162,9 +162,9 @@ router.delete("/property/:prop_id", (req, res) => {
 //   console.log(`Server running on port ${PORT}.`);
 // });
 
-// READ - Get a user's transaction history
+// READ - Get a user"s transaction history
 router.get("/transactions/", async (req, res) => {
-  // handle request for the user's transaction history
+  // handle request for the user"s transaction history
   try {
     const {user_id} = req.params;
     const usersTransactions = await pool.query("SELECT * FROM transactions WHERE user_id = $1", [user_id]);
@@ -175,9 +175,9 @@ router.get("/transactions/", async (req, res) => {
   }
 });
 
-// UPDATE - Edit a user's transaction history
+// UPDATE - Edit a user"s transaction history
 router.put("/transactions/:transaction_id", async (req, res) => {
-  // handles updates of the user's transaction
+  // handles updates of the user"s transaction
   try {
     const {user_id} = req.params;
     const transactions = await pool.query("SELECT * FROM transactions WHERE user_id = $1", [user_id]);
@@ -252,13 +252,13 @@ router.get("/reports", (req, res) => {
   }
 });
 
-const { Client } = require('pg');
+const { Client } = require("pg");
 
 const client = new Client({
-  host: 'localhost',
-  user: 'postgres',
-  password: '8}Ry^4D^q#*5gH(L',
-  database: 'kmshradb'
+  host: "localhost",
+  user: "postgres",
+  password: "8}Ry^4D^q#*5gH(L",
+  database: "kmshradb"
 });
 
 client.connect();

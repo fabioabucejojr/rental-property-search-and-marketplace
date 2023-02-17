@@ -218,7 +218,7 @@ const storage = multer.diskStorage( {
       query += ` AND bathrooms >= ${reviews}`;
     }
 
-    client.query(query, (err, result) => {
+    app.query(query, (err, result) => {
       if (err) {
         res.status(400).json({ error: err.message });
       }
