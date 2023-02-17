@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <>
       <footer className="" >
-        <small>© 2023<span className="js-year"></span> RSDMF Digital Marketing Services, All Rights Reserved</small>
+        <small>© <span className="js-year"></span> Fabio Jr Abucejo, All Rights Reserved</small>
       </footer>
     </>
   );
