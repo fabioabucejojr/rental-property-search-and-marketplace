@@ -1,4 +1,5 @@
 // import * as React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,6 +17,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import { toast } from "react-toastify";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import UserDashboard from "./UsrDashboard";
+import AdminDashboard from "./Dashboard";
 
 function Copyright(props) {
   return (
@@ -34,6 +37,7 @@ const theme = createTheme();
 
 
 const Login = ({ setAuth }) => {
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({
         user_email: "",
         user_password: ""
@@ -63,6 +67,16 @@ const Login = ({ setAuth }) => {
                     position: toast.POSITION.TOP_CENTER
                 });
                 //console.log(parseRes);
+                
+                // redirect to the appropriate dashboard based on user_type
+                if (parseRes.user.user_type === "user") {
+                  // Redirect to user dashboard
+                  navigate("/UserDashboard");
+                } else if (parseRes.user.user_type === "admin") {
+                  // Redirect to admin dashboard
+                  navigate("/AdminDashboard");
+                }
+
             } else {
                 setAuth(false);
                 toast.error(parseRes);
