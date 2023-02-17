@@ -29,7 +29,9 @@
   --smallFontSize: .813rem;
   --smallestFontSize: .75rem;
 }
-
+footer {
+  align-items: center;
+}
 /* Default styles */
 html{
   font-size: 90%;
