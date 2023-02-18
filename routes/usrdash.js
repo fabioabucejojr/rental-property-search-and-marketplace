@@ -84,7 +84,7 @@ router.put("/users/:user_id", authorization, async (req, res) => {
 });
 
 // CREATE - Add a new property listing for a user
-router.post("/property", async (req, res) => {
+router.post("/user/property", async (req, res) => {
   try {
     const { user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms } = req.body;
     const propertyData = [ user_id, property_name, city, state, zip_code, price, bedrooms, bathrooms ];
