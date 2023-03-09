@@ -1,21 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
 *{
-  padding: 0;
-  box-sizing: border-box;
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;  
+  box-sizing: border-box;  
   transition: .3s ease;
 }
 
 /* Colors and Styles (Default) */
 :root{
-  --PrimaryColor: hsl(94, 59%, 35%);
-  --HoverColor: #bdf094;
+  --1stMainColor: #9975ff;
+  --2ndMainColor: #fdfd96;
+  --3rdMainColor: #84fc1e;
+  --4thMainColor: #38B6FF;
+  --1stSecondaryColor: #1f1f1f;
+  --2ndSecondaryColor: #98dcff;
+  --3rdSecondaryColor: #adf7b6;  
+  --HoverColor: #84fc1e;
   --paleGreen: hsl(96,75%, 89%);
   --whiteColor: #ffffff;
   --blackColor: #1f1f1f;
-  --textColor: hsl(240, 1%, 48%);
+  --textColor1: #1f1f1f;
+  --textColor2: hsl(240, 1%, 48%);
   --bgColor: #fdfd96;
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
@@ -38,6 +43,21 @@ html{
 
 }
 
+button {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: none;
+  width: 200px;
+  border: none;
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
 p{
   font-size: 1.5rem;
   line-height: 1.5;
@@ -45,10 +65,10 @@ p{
   justify-content: justify;
 }
 
-body {
+/* body {
   background: #ffffff;
   margin: 0;
-}
+} */
 
 .bold {
   font-weight: bold;
@@ -83,8 +103,7 @@ section {
   }
 }
 
-.App-header {
-  background-color: #1c50b9;
+/* .App-header {  
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -92,11 +111,11 @@ section {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
-.App-link {
+/* .App-link {
   color: #2b41e7;
-}
+} */
 
 /* @keyframes App-logo-spin {
   from {

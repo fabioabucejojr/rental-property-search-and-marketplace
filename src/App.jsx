@@ -2,17 +2,15 @@ import React, { Fragment, useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import { getData } from "./api/axios";
-import SearchBar from "./components/SearchBar";
-import { Switch } from "react-router-dom";
+// import SearchBar from "./components/SearchBar";
 // import { toast } from "react-toastify";
 // import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {createRoot} from "react-dom";
-import Footer from "./components/Footer";
-
+import Footer from "./pages/Footer";
 
 import {
   BrowserRouter as Router,
@@ -27,9 +25,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import MarketplacePage from "./components/Marketplace";
+import MarketplacePage from "./pages/Marketplace";
 import Dashboard from "./components/Dashboard";
 import UserDashboard from "./components/UsrDashboard";
+// import PropertySearch from "./components/PropertySearch";
 
 function App() {
 
@@ -63,7 +62,7 @@ function App() {
         method: "GET",
         headers: { token: localStorage.token }
       });
-      //console.log(response)
+      console.log(response)
       const parseRes = await response.json()
 
 
@@ -89,31 +88,13 @@ function App() {
     // class App extends React.Component {
     //   render() {
   
-// function defineUser() {
-//   const user = defineUser(); // get user from authentication service
-//   return (
-//     <div className="App">
-//       <Switch>
-//         <Route path="/user" component={UserDashboard} />
-//         <Route path="/admin" component={AdminDashboard} />
-//         <Navigate to={user.user_type === 'user' ? '/user' : '/admin'} />
-//       </Switch>
-//     </div>
-//   );
-// }
+
 
     return (
       <Fragment>
         <Router>
-          <Navbar />
-          {/* <searchBar data={data} setSearchResults={setSearchResults} />
-          <Switch>        
-            
-            <Navigate to={users.user_type === 'user' ? '/user' : '/admin'} />        
-          </Switch> */}
-            <Routes>
-              {/* <Route path="/user" component={UserDashboard} />
-              <Route path="/admin" component={Dashboard} /> */}
+          <Navbar />          
+            <Routes>              
               <Route exact path="/" element={<Home />} />
               <Route exact path="/register" element={<Home />} />
               <Route exact path="/marketplace" element={<MarketplacePage />} />
