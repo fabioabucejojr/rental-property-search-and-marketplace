@@ -29,23 +29,24 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-// export default function SignUp() {
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const data = new FormData(event.currentTarget);
-//     console.log({
-//       email: data.get('email'),
-//       password: data.get('password'),
-//     });
-//   };
 const SignUp = ({ setAuth }) => {
     const [inputs, setInputs] = useState({
         first_name: "",
         last_name: "",
         bdate: "",
         user_email: "",
-        user_password: ""
+        user_password: "",
+        user_type: ""
     });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('user_email'),
+      password: data.get('user_password'),
+    });
+  };
 
     const { first_name, last_name, bdate, user_email, user_password  } = inputs;
 
@@ -90,12 +91,6 @@ const SignUp = ({ setAuth }) => {
     var day = dateObj.getUTCDate();
     var year = dateObj.getUTCFullYear();
     const newdate = year + "-" + month + "-" + day;
-
-    // <select name="user_type" id="user_type" >
-    //     <option value="admin">admin</option>
-    //     <option value="staff">staff</option>
-    //     <option value="user">user</option>
-    // </select>
 
     return (
         <ThemeProvider theme={theme}>
