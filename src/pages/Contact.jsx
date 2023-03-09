@@ -22,8 +22,8 @@ export default function SiteContact() {
     }
     return (
         <div>
-            <section>
-                <Navbar/>
+            <section className="navbar--header">
+                <Navbar />
             </section>
             <section className="hero--contact">        
                 <div className="hero--contact--container">
