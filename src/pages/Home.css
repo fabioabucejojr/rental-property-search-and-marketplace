@@ -1,32 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 * {
+    font-family: 'Poppins', sans-serif;    
     padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin: 0;    
 }
 
 main {
     padding: 57px 27px;
-    height: 100vh;
-    width: 100vw;
-    background-image: ;
+    height: 100%;
+    width: 100%;
+    background-image: url("../img/condos-chuttersnap-3_1f0ZGOjIY-unsplash.jpg");
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #38B6FF;
+    /* background-color: #38B6FF; */
+    /* margin-top: 10px; */
 }
 
-video {
+.homepage {
+    height: 100%;
+    width: 100%px;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: clip;
+    display: inline;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-logo {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6FF;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+/* video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     object-fit: contain;
     z-index: -1;
-}
+} */
 
-.content {
+/* .content {
     position: absolute;
     width: 100;
     height: 100%;
@@ -35,7 +59,7 @@ video {
     justify-content: center;
     align-items: center;
     color: white;
-}
+} */
 
 /* .overlay {
     position: absolute;
@@ -43,35 +67,88 @@ video {
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.4);
+    background-color: "";
+} */
+.search-page {
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #38B6FF;
+}
+
+.search-form,
+.search-box {
+    border: --2ndSecondaryColor solid 1px;    
+    height: 45.6px;
+    width: 550px;
+    padding: -10px 10px;
+    min-height: auto;
+    min-width: auto;
+    display: flex;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+.search-buttons {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    /* justify-content: space-around; */
+    align-items: center;
+    /* background-color: #fff; */
+    margin: 10px 0 0 0;
+}
+
+/* .search-form {
+    font-family: "Poppins", sans-serif;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
 } */
 
-.container{
+.hero--about{
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fdfd96;
+    /* background-color: #adf7b6; */
 }
 
-.home, about, contact{
+.hero--contact{
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fdfd96;
+    background-color: #adf7b6;
+}
+
+footer {
+    /* height: 100vh; */
+    height: 46.8px;
+    width: 100%;
+    padding: 0 20px 0 20px;
+    
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9975ff;
 }
 
 
-.inner{
+/* .inner{
     height: 100vh;
     width: 100%;
     border-radius: 3vh;
     background-color: #fdfd96;
     box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
-}
-.result{
-
-}
+} */
