@@ -46,7 +46,7 @@ const AddPropertyList = (properties) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/property`, {
+      const response = await axios.post("/user/property", {
       property_type,
       property_name,
       city,
